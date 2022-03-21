@@ -14,6 +14,10 @@ namespace UnicornStore
     {
         public static void Main(string[] args)
         {
+            var root = Directory.GetCurrentDirectory();
+            var dotEnv = Path.Combine(root, ".env");
+            DotEnv.Load(dotEnv);
+
             var host = CreateWebHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -41,6 +45,7 @@ namespace UnicornStore
             {
                 config.SetBasePath(Directory.GetCurrentDirectory());
                 config.AddCommandLine(args);
+                config.AddEnvironmentVariables();
             })
                 .UseStartup<Startup>();
     }

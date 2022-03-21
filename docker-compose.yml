@@ -7,4 +7,18 @@ services:
       context: ./
       dockerfile: UnicornStore/Dockerfile
     ports:
-      - 8080:80
+      - "8080:80"
+    depends_on:
+      - unicornstoredb
+    environment:
+      UNICORNSTORE_DBSECRET_USERNAME: "sa"
+      UNICORNSTORE_DBSECRET_PASSWORD: "Password1!"
+      UNICORNSTORE_DBSECRET_HOST: "unicornstoredb"
+  unicornstoredb:
+    image: mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password1!"
+       

@@ -34,21 +34,21 @@ namespace UnicornStore
             // The UNICORNSTORE_DBSECRET is stored in AWS Secrets Manager
             // The value is loaded as an Environment Variable in a JSON string
             // The key/value pairs are mapped to the Configuration
-            if (Configuration["UNICORNSTORE_DBSECRET"] != null)
-            {
-                var unicorn_envvariables = Configuration["UNICORNSTORE_DBSECRET"];
-                var document = JsonDocument.Parse(unicorn_envvariables);
-                var root = document.RootElement;
-                Configuration["UNICORNSTORE_DBSECRET:username"] = root.GetProperty("username").GetString();
-                Configuration["UNICORNSTORE_DBSECRET:password"] = root.GetProperty("password").GetString();
-                Configuration["UNICORNSTORE_DBSECRET:host"] = root.GetProperty("host").GetString();
-            }
+            // if (Configuration["UNICORNSTORE_DBSECRET"] != null)
+            // {
+            //     var unicorn_envvariables = Configuration["UNICORNSTORE_DBSECRET"];
+            //     var document = JsonDocument.Parse(unicorn_envvariables);
+            //     var root = document.RootElement;
+            //     Configuration["UNICORNSTORE_DBSECRET:username"] = root.GetProperty("username").GetString();
+            //     Configuration["UNICORNSTORE_DBSECRET:password"] = root.GetProperty("password").GetString();
+            //     Configuration["UNICORNSTORE_DBSECRET:host"] = root.GetProperty("host").GetString();
+            // }
 
             var sqlconnectionbuilder = new SqlConnectionStringBuilder(
                 Configuration.GetConnectionString("UnicornStore"));
-            sqlconnectionbuilder.Password = Configuration["UNICORNSTORE_DBSECRET:password"];
-            sqlconnectionbuilder.UserID = Configuration["UNICORNSTORE_DBSECRET:username"];
-            sqlconnectionbuilder.DataSource = Configuration["UNICORNSTORE_DBSECRET:host"];
+            sqlconnectionbuilder.Password = Configuration["UNICORNSTORE_DBSECRET_PASSWORD"];
+            sqlconnectionbuilder.UserID = Configuration["UNICORNSTORE_DBSECRET_USERNAME"];
+            sqlconnectionbuilder.DataSource = Configuration["UNICORNSTORE_DBSECRET_HOST"];
             _connection = sqlconnectionbuilder.ConnectionString;
 
             services.AddDbContext<UnicornStoreContext>(options =>
